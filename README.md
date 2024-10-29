@@ -23,11 +23,13 @@ Before you begin, ensure you have the following installed on your local machine:
 2. **Install dependencies**:
    Install the required libraries and dependencies using npm:
    ```bash
+   cd frontend
+   npm install --force
+   cd ../backend
    npm install
    ```
 
 3. **Additional Libraries**:
-   Ensure you have the following libraries installed:
     - For frontend (React):
         - [axios](https://www.npmjs.com/package/axios) for making API requests.
           ```bash
