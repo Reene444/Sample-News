@@ -15,7 +15,7 @@ interface Article {
 }
 
 const NewsHeadline: React.FC = () => {
-    const columns = useMedia(['(min-width: 100px)', '(min-width: 100px)', '(min-width: `100px)'], [4, 3, 3], 3);
+    const columns = useMedia(['(min-width: 50px)', '(min-width: 50px)', '(min-width: `50px)'], [4, 3, 3], 3);
     const [ref, { width }] = useMeasure();
     const [articles, setArticles] = useState<Article[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -23,6 +23,7 @@ const NewsHeadline: React.FC = () => {
     const fetchNews = async () => {
         try {
             const data = await fetchNewsArticles();
+
             setArticles(data.map((article: any) => ({
                 imageUrl: article.urlToImage,
                 title: article.title,
@@ -31,8 +32,24 @@ const NewsHeadline: React.FC = () => {
                 description: article.description,
                 url: article.url,
             })));
+            console.log("front",JSON.stringify(data.map((article: any) => ({
+                imageUrl: article.urlToImage,
+                title: article.title,
+                source: article.source.name,
+                publishedAt: new Date(article.publishedAt).toLocaleDateString(),
+                description: article.description,
+                url: article.url,
+            }))))
+            const googlePixelArticles = articles.filter(article =>
+                article.title.startsWith('Google Pixel')
+            );
+
+            // 打印这些文章的 imageUrl
+            googlePixelArticles.forEach(article => {
+                console.log('Google Pixel',article.imageUrl);
+            });
         } catch (err) {
-            setError('Error fetching news');
+            setError('Error fetching news, the server is busy now, please refresh later');
         }
     };
 
@@ -41,19 +58,18 @@ const NewsHeadline: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const t = setInterval(() => setArticles((articles) => shuffle(articles)), 1000_000_000);
+        const t = setInterval(() => setArticles((articles) => shuffle(articles)), 5000000);
         return () => clearInterval(t);
     }, [articles]);
 
     const [heights, gridItems] = useMemo(() => {
         let heights = new Array(columns).fill(0);
-        let adjustHightFactor = 0.9;
-        let adjustWidthFactor = 0.3;
+        let redundantFactor=3;
         let gridItems = articles.map((article, i) => {
             const column = heights.indexOf(Math.min(...heights));
-            const x = (width / columns) * column * adjustWidthFactor;
-            const y =  900 / 2 ;
-            return { ...article, x, y , width: (width / columns )* adjustHightFactor, height: 900 / 2 };
+            const x = (width / columns) * column ;
+            const y =  900 /2 ;
+            return { ...article, x, y , width: (window.innerWidth / (columns+redundantFactor) ), height: 900 / 2 };
         });
         return [heights, gridItems];
     }, [columns, articles, width]);
@@ -76,29 +92,35 @@ const NewsHeadline: React.FC = () => {
                 if (article.imageUrl === null) {
                 return null;
             }
+                const encodedImageUrl = encodeURI(article.imageUrl);
                 return(
-                <a.div style={style} className={styles.item} key={article.url}>
-                    <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
-                        <div
-                            style={{
-                                backgroundImage: `url(${article.imageUrl}?auto=compress&dpr=2&h=500&w=500)`,
-                            }}
-                            className={styles.image}
-                        />
-                    </a>
-                    <div className={styles.content}>
-                        <h2 className={styles.title}>{article.title}</h2>
-                        <p className={styles.source}>Source: {article.source}</p>
-                        <p className={styles.date}>Published: {article.publishedAt}</p>
-                        <p className={styles.description}>{article.description}</p>
+
+                    <a.div style={style} className={styles.item} key={article.url}>
+
                         <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
-                            Read more
+
+                            <img src={article.imageUrl}
+                                className={styles.image}
+                            />
                         </a>
-                    </div>
-                </a.div>
+                        <div className={styles.content}>
+
+                            <h2 className={styles.title}>{article.title}</h2>
+                            <p className={styles.description}>{article.description}</p>
+                            <a href={article.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                                Read more
+                            </a>
+
+                            {/* Bottom-right info container for source and date */}
+                            <div className={styles.infoContainer}>
+                                <p className={styles.source}>Source: {article.source}</p>
+                                <p className={styles.date}>Published: {article.publishedAt}</p>
+                            </div>
+                        </div>
+                    </a.div>
                 )
 
-})}
+            })}
         </div>
     );
 };
