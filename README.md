@@ -62,4 +62,3 @@ Before you begin, ensure you have the following installed on your local machine:
    Open your web browser and navigate to the port specified in your application to view your application.
 
 7. **Demo**:
-8. 
