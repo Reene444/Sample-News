@@ -1,10 +1,11 @@
 // src/App.tsx
 import React from 'react';
-import NewsList from './pages/components/News/NewsList';
 import AppRouter from './router/AppRouter';
+import MouseTrail from "./components/MouseFollower/MouseFollower";
 
 const App: React.FC = () => (
     <div>
+        <MouseTrail />
         <AppRouter />
     </div>
 );
