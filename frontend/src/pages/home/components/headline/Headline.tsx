@@ -27,7 +27,7 @@ const Headline = () => {
         ref.current.forEach(clearTimeout)
         ref.current = []
         setItems([]) // Clear items first
-        ref.current.push(setTimeout(() => setItems(['Latest', 'News', 'Worldwide']), 2000))
+        ref.current.push(setTimeout(() => setItems(['Latest', 'News', 'Worldwide']), 1000))
         ref.current.push(setTimeout(() => setItems(['Latest', 'News']), 5000))
         ref.current.push(setTimeout(() => setItems(['Latest', 'News', 'Worldwide']), 8000))
     }, [])

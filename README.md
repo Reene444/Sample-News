@@ -57,8 +57,11 @@ Before you begin, ensure you have the following installed on your local machine:
    ```bash
    npm start
    ```
-
+    Go to .env in the fronend folder to change NEWS_API_KEY
 6. **Access the application**:
    Open your web browser and navigate to the port specified in your application to view your application.
 
 7. **Demo**:
+![img_1.png](img_1.png)
+![img.png](img.png)
+![img_2.png](img_2.png)

@@ -1,0 +1,42 @@
+/* ErrorMessage.module.css */
+.dynamicElements {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 45px; /* 元素之间的间隔 */
+    margin-top: 500px;
+}
+
+.circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: lightgray;
+    animation: bounce 1.2s infinite;
+}
+
+.square {
+    width: 50px;
+    height: 50px;
+    background-color: lightgray;
+    animation: bounce 1.5s infinite;
+}
+
+.triangle {
+    width: 50px;
+    height: 50px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid lightgray;
+    animation: bounce 1.8s infinite;
+}
+
+/* 定义元素的弹跳动画 */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px); /* 向上移动的高度 */
+    }
+}

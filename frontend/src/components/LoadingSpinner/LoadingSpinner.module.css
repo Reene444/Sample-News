@@ -1,0 +1,28 @@
+.spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* 使容器充满视口高度 */
+}
+
+.spinner {
+    width: 50px; /* 根据需求调整大小 */
+    height: 50px; /* 根据需求调整大小 */
+    border: 5px solid lightgray; /* 旋转的边框颜色 */
+    border-top: 5px solid gray; /* 顶部的颜色，形成旋转效果 */
+    border-radius: 50%; /* 圆形 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+    animation: spin 3s linear infinite; /* 将持续时间修改为3秒 */
+}
+
+
+/* 定义旋转动画 */
+@keyframes spin {
+    from {
+        transform: rotate(0deg); /* 从0度开始 */
+    }
+    to {
+        transform: rotate(360deg); /* 到360度 */
+    }
+}

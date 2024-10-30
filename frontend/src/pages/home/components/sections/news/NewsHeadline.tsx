@@ -5,6 +5,8 @@ import useMeasure from 'react-use-measure';
 import useMedia from '../../../../../hooks/useMedia';
 import { fetchNewsArticles } from '../../../../../services/api/newsApi';
 import styles from './NewsHeadline.module.css';
+import ErrorMessage from "../../../../..//components/ErrorMessage/ErrorMessage";
+import LoadingSpinner from "../../../../../components/LoadingSpinner/LoadingSpinner";
 interface Article {
     imageUrl: string;
     title: string;
@@ -19,11 +21,10 @@ const NewsHeadline: React.FC = () => {
     const [ref, { width }] = useMeasure();
     const [articles, setArticles] = useState<Article[]>([]);
     const [error, setError] = useState<string | null>(null);
-
+    const [loading, setLoading] = useState<boolean>(true);
     const fetchNews = async () => {
         try {
             const data = await fetchNewsArticles();
-
             setArticles(data.map((article: any) => ({
                 imageUrl: article.urlToImage,
                 title: article.title,
@@ -32,24 +33,12 @@ const NewsHeadline: React.FC = () => {
                 description: article.description,
                 url: article.url,
             })));
-            console.log("front",JSON.stringify(data.map((article: any) => ({
-                imageUrl: article.urlToImage,
-                title: article.title,
-                source: article.source.name,
-                publishedAt: new Date(article.publishedAt).toLocaleDateString(),
-                description: article.description,
-                url: article.url,
-            }))))
-            const googlePixelArticles = articles.filter(article =>
-                article.title.startsWith('Google Pixel')
-            );
+            console.log("[front.data.articles]",JSON.stringify(articles))
 
-            // 打印这些文章的 imageUrl
-            googlePixelArticles.forEach(article => {
-                console.log('Google Pixel',article.imageUrl);
-            });
         } catch (err) {
             setError('Error fetching news, the server is busy now, please refresh later');
+        } finally {
+            setLoading(false); // 完成加载
         }
     };
 
@@ -87,9 +76,10 @@ const NewsHeadline: React.FC = () => {
 
     return (
         <div ref={ref} className={styles.list} style={{ height: Math.max(...heights) , '--columns': columns } as React.CSSProperties}>
-            {error && <p>{error}</p>}
+            {loading && <LoadingSpinner />}
+            {error && <ErrorMessage message={error}/>}
             {transitions((style, article) => {
-                if (article.imageUrl === null) {
+                if (article.imageUrl === null || error !== null) {
                 return null;
             }
                 const encodedImageUrl = encodeURI(article.imageUrl);
