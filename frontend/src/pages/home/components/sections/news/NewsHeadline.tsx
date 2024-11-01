@@ -7,6 +7,7 @@ import { fetchNewsArticles } from '../../../../../services/api/newsApi';
 import styles from './NewsHeadline.module.css';
 import ErrorMessage from "../../../../..//components/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../../../components/LoadingSpinner/LoadingSpinner";
+import { useNavigate } from 'react-router-dom';
 interface Article {
     imageUrl: string;
     title: string;
@@ -22,6 +23,7 @@ const NewsHeadline: React.FC = () => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const navigate=useNavigate();
     const fetchNews = async () => {
         try {
             const data = await fetchNewsArticles();
@@ -45,7 +47,17 @@ const NewsHeadline: React.FC = () => {
     useEffect(() => {
         fetchNews();
     }, []);
-
+    useEffect(()=>{
+        if (error) {
+            navigate('/error', {
+              state: {
+                errorMessage: error,
+              },
+            });
+          }
+          
+            
+    },[error])
     useEffect(() => {
         const t = setInterval(() => setArticles((articles) => shuffle(articles)), 5000000);
         return () => clearInterval(t);

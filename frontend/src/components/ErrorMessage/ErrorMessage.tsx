@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSpring, animated } from '@react-spring/web';
-import styles from './ErrorMessage.module.css'; // 确保这个文件存在
+import styles from './ErrorMessage.module.css'; 
 
 interface ErrorMessageProps {
-    message: string;
+    message?: string;
 }
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
-    // 定义错误消息的动画样式
+
     const messageSpring = useSpring({
         opacity: 1,
         from: { opacity: 0 },

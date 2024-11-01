@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest", "node"],
     "target": "es5",
     "lib": [
       "es6",
@@ -23,7 +24,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "declaration": true ,
+    "esModuleInterop": true,
+    "module": "esnext" 
   },
   "include": [
     "src"
