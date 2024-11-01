@@ -62,6 +62,9 @@ Before you begin, ensure you have the following installed on your local machine:
    Open your web browser and navigate to the port specified in your application to view your application.
 
 7. **Demo**:
+   
+https://github.com/user-attachments/assets/2bfb90ca-7a6b-465d-af23-f58d5b7511c8
+
 ![img_1.png](img_1.png)
 ![img.png](img.png)
 ![img_2.png](img_2.png)
